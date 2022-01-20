@@ -155,6 +155,14 @@ func (attStmt *packedAttestationStatement) Verify(clientDataHash []byte, authnDa
 
 func verifyAttestationCert(attestnCert *x509.Certificate, caCerts []*x509.Certificate) (trustPath []*x509.Certificate, err error) {
 	var verifyOptions x509.VerifyOptions
+	if webauthn.AttestationStatementVerifyOptions != nil {
+		verifyOptions.Roots = webauthn.AttestationStatementVerifyOptions.Roots
+		verifyOptions.Intermediates = webauthn.AttestationStatementVerifyOptions.Intermediates
+		verifyOptions.CurrentTime = webauthn.AttestationStatementVerifyOptions.CurrentTime
+		verifyOptions.DNSName = webauthn.AttestationStatementVerifyOptions.DNSName
+		verifyOptions.KeyUsages = webauthn.AttestationStatementVerifyOptions.KeyUsages
+		verifyOptions.MaxConstraintComparisions = webauthn.AttestationStatementVerifyOptions.MaxConstraintComparisions
+	}
 
 	if len(caCerts) > 0 {
 		lastCert := caCerts[len(caCerts)-1]

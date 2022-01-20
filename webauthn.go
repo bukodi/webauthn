@@ -35,6 +35,7 @@ import (
 	"bytes"
 	"crypto/rand"
 	"crypto/sha256"
+	"crypto/x509"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -71,6 +72,8 @@ type AssertionExpectedData struct {
 	PrevCounter       uint32
 	Credential        *Credential
 }
+
+var AttestationStatementVerifyOptions *x509.VerifyOptions
 
 // NewAttestationOptions returns a PublicKeyCredentialCreationOptions from config and user.
 func NewAttestationOptions(config *Config, user *User) (*PublicKeyCredentialCreationOptions, error) {
